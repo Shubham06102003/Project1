@@ -9,11 +9,11 @@ function Header() {
   
   const path = usePathname();
   return (
-    <div className='flex p-4 items-center justify-between bg-secondary shadow-sm'>
-        <Image src={'/logo.svg'} width={160} height={100} alt='logo'/>
-        <ul className='hidden md:flex gap-6'>
+    <div className='flex items-center justify-between bg-secondary shadow-sm pr-5 pl-5 pt-2 pb-2'>
+        <Image src={'/blacklogo.png'} width={125} height={20} alt='logo'/>
+        <ul className='hidden md:flex gap-12'>
             <li className={`hover:text-primary hover:font-bold transition-all cursor-pointer
-                ${path === '/dashboard' && 'text-primary font-bold'}
+                ${path === '/dashboard/questions' && 'text-primary font-bold'}
             `}>
                 <Link href="/dashboard">Dashboard</Link>
             </li>

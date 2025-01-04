@@ -1,4 +1,4 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -69,4 +69,81 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+} */
+
+/* Global Styles */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.5;
 }
+
+@layer base {
+  :root {
+    /* Light Mode Colors */
+    --background: 210, 15%, 98%; /* Soft light gray background */
+    --foreground: 210, 20%, 20%; /* Dark text for high readability */
+    --card: 0, 0%, 100%; /* White for clean card background */
+    --card-foreground: 210, 15%, 15%; /* Dark card text */
+    --primary: 210, 15%, 25%; /* Professional Dark Blue */
+    --primary-foreground: 0, 0%, 100%; /* White text on primary */
+    --secondary: 0, 0%, 95%; /* Very light gray for secondary */
+    --secondary-foreground: 210, 10%, 40%; /* Soft medium gray for secondary text */
+    --muted: 210, 5%, 80%; /* Light gray for muted text */
+    --muted-foreground: 0, 0%, 40%; /* Soft dark gray for muted text */
+    --accent: 140, 25%, 45%; /* Subtle green for accents */
+    --accent-foreground: 0, 0%, 98%; /* Light text for accent */
+    --destructive: 0, 100%, 50%; /* Red for error/destructive actions */
+    --destructive-foreground: 0, 0%, 98%; /* Light text for destructive */
+    --border: 0, 0%, 85%; /* Light gray border for subtle separation */
+    --input: 0, 0%, 90%; /* Soft input background */
+    --ring: 0, 0%, 60%; /* Soft gray ring for focus state */
+    --chart-1: 220, 60%, 50%; /* Professional blue for charts */
+    --chart-2: 145, 50%, 50%; /* Muted green for charts */
+    --chart-3: 25, 70%, 50%; /* Soft warm color for charts */
+    --chart-4: 40, 60%, 60%; /* Balanced neutral color */
+    --chart-5: 170, 50%, 50%; /* Calm teal for charts */
+    --radius: 0.5rem; /* Subtle rounded corners */
+  }
+
+  /* Dark Mode Colors */
+  .dark {
+    --background: 210, 15%, 15%; /* Dark background for dark mode */
+    --foreground: 210, 10%, 90%; /* Light text for dark mode */
+    --card: 0, 0%, 20%; /* Darker card background */
+    --card-foreground: 210, 15%, 95%; /* Lighter card text */
+    --primary: 210, 15%, 35%; /* Dark blue for dark mode */
+    --primary-foreground: 0, 0%, 100%; /* White text on primary */
+    --secondary: 0, 0%, 25%; /* Very dark gray for secondary */
+    --secondary-foreground: 210, 10%, 70%; /* Medium gray for secondary text */
+    --muted: 210, 5%, 30%; /* Very dark muted text */
+    --muted-foreground: 0, 0%, 80%; /* Light gray for muted text */
+    --accent: 140, 25%, 45%; /* Subtle green for accents */
+    --accent-foreground: 0, 0%, 98%; /* Light text for accent */
+    --destructive: 0, 100%, 40%; /* Dark red for error */
+    --destructive-foreground: 0, 0%, 98%; /* Light text for destructive */
+    --border: 0, 0%, 15%; /* Dark gray border for separation */
+    --input: 0, 0%, 20%; /* Dark background for input fields */
+    --ring: 0, 0%, 50%; /* Mid-gray ring for focus state */
+    --chart-1: 220, 60%, 50%; /* Professional blue for charts */
+    --chart-2: 145, 50%, 50%; /* Muted green for charts */
+    --chart-3: 25, 70%, 50%; /* Warm chart color */
+    --chart-4: 40, 60%, 60%; /* Neutral chart color */
+    --chart-5: 170, 50%, 50%; /* Calm teal for charts */
+  }
+}
+
+/* Apply background and text colors */
+body {
+  @apply bg-background text-foreground;
+}
+
+/* Apply subtle border style to all elements */
+* {
+  @apply border-border;
+}
+

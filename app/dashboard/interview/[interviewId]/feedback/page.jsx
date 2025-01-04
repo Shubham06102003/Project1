@@ -15,21 +15,57 @@ import { useRouter } from 'next/navigation';
 import { use } from 'react';
 
 function Feedback({ params }) {
-    // Resolve the `params` promise
     const resolvedParams = use(params);
     const interviewId = resolvedParams.interviewId;
 
     const [feedbackList, setFeedbackList] = useState([]);
+    const [category, setCategory] = useState("");
+    const [loading, setLoading] = useState(false);
+
     const router = useRouter();
 
     useEffect(() => {
         GetFeedback();
     }, []);
 
+    useEffect(() => {
+        if (category) {
+        console.log("Updated category:", category );
+        }
+    }, [category]);
+
+
+    const onSubmit = async (e) => {
+        setLoading(true);
+        const InputPrompt1 = `Job Role: ${jobPosition}, Job Description: ${jobDesc} Give me a category such as programming, health, creativity, etc based on the above parameter. Provide the answer in only one word as a field in JSON Format {Category: generated result}`;
+        const result1 = await chatSession.sendMessage(InputPrompt1);
+        // Process category
+        const CategoryResp = result1.response
+            .text()
+            .replace("```json", "")
+            .replace("```", "");
+        console.log(JSON.parse(CategoryResp));
+
+      const categoryName = JSON.parse(CategoryResp);
+      setCategory(categoryName.Category); // Store the category value
+      console.log("Category to set:", categoryName.Category);
+
+      const topic = jobPosition +" "+ jobDesc;
+          const resp1 = await db
+          .insert(CourseList)
+          .values({
+            courseId:uuidv4(),
+            name:topic,
+            category:category
+          })
+
+    }
+
     let overallRating = 0;
+    let len = Number(feedbackList.length);
     feedbackList?.forEach((item) => {
         let total = Number(item.rating);
-        overallRating += total / 5;
+        overallRating += total / len;
     });
     let roundedRating = overallRating.toFixed(2);
 
@@ -42,6 +78,8 @@ function Feedback({ params }) {
         console.log(result);
         setFeedbackList(result);
     };
+
+    const lastFeedback = feedbackList[feedbackList.length - 1]; // Get the last feedback entry
 
     return (
         <div className="p-10">
@@ -57,12 +95,34 @@ function Feedback({ params }) {
                     <h2 className="font-bold text-2xl">
                         Here is your interview feedback
                     </h2>
-                    <h2 className="text-primary text-lg my-3">
-                        Your overall interview rating: <strong>{roundedRating}/10</strong>
-                    </h2>
                     <h2 className="text-sm text-gray-500">
-                        Find below interview question with correct answer, Your answer and feedback improvement
+                        Find below your soft skill and technical feedback
                     </h2>
+
+                    {/* Soft Skill Feedback Section */}
+                    {lastFeedback && (
+                        <div className="mt-10">
+                            <h3 className="text-2xl font-bold text-purple-500">Soft Skill Feedback</h3>
+                            <div className="flex flex-col gap-4 mt-5 p-5 border rounded-lg bg-gray-50">
+                                <h2 className="text-red-500">
+                                    <strong>Video Rating:</strong> {lastFeedback.videoRating}
+                                </h2>
+                                <h2 className="text-purple-900">
+                                    <strong>Feedback:</strong> {lastFeedback.videoFeedback}
+                                </h2>
+                                <h2 className="text-gray-900">
+                                    <strong>Summary:</strong> {lastFeedback.videoSummary}
+                                </h2>
+                            </div>
+                        </div>
+                    )}
+
+                    <h2 className="text-primary text-lg mt-10 my-3">
+                        Your Technical interview rating: <strong>{roundedRating}/10</strong>
+                    </h2>
+
+                    {/* Technical Feedback Section */}
+                    <h3 className="text-2xl font-bold text-blue-500 mt-5">Technical Feedback</h3>
                     {feedbackList.map((item, index) => (
                         <Collapsible key={index} className="mt-7">
                             <CollapsibleTrigger className="p-2 bg-secondary rounded-lg my-2 text-left flex justify-between gap-7 w-full">
@@ -92,7 +152,11 @@ function Feedback({ params }) {
                     ))}
                 </>
             )}
+            <div className='flex mt-5 justify-between'>
             <Button onClick={() => router.replace('/dashboard')}>Go Home</Button>
+            <Button onClick={() => router.replace('/create-course')}>Generate Course</Button>
+            </div>
+
         </div>
     );
 }
