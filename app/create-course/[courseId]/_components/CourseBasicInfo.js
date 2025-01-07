@@ -57,7 +57,7 @@ function CourseBasicInfo({course,refreshData,edit=true}) {
                 <h2 className='font-medium mt-2 flex gap-2 items-center text-primary'><HiOutlineRectangleStack />{course?.category}</h2>
                  {!edit &&<Link href={'/course/'+course?.courseId+"/start"}>
 
-                   <Button className="w-full mt-5">Start</Button>
+                   <Button className="w-full mt-5 hover:bg-slate-400">Start</Button>
                  </Link>}
            
             </div>

@@ -6,14 +6,14 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 # Load the pre-trained model
-model = load_model('C:/Users/shubh/Desktop/datasets and model/new_model.keras')
+model = load_model('new_model.keras')
 
 # Emotion labels based on AffectNet
 emotion_labels = ['Anger', 'Contempt', 'Disgust', 'Fear', 'Happy', 'Neutral', 'Sad', 'Surprise']
 
 # Initialize dlib's face detector and facial landmark predictor
 detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor("C:/Users/shubh/Desktop/datasets and model/shape_predictor_68_face_landmarks.dat")
+predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 
 # Initialize Flask app and CORS
 app = Flask(__name__)

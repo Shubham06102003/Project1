@@ -1,36 +1,44 @@
 "use client"
-import { db } from '@/configs/db'
-import { Chapters, CourseList } from '@/configs/schema'
-import { useUser } from '@clerk/nextjs'
-import { and, eq } from 'drizzle-orm'
-import React, { useEffect, useState } from 'react'
-import CourseBasicInfo from './_components/CourseBasicInfo'
-import CourseDetails from './_components/CourseDetails'
-import ChapterList from './_components/ChapterList'
-import { Button } from '@/components/ui/button'
-import { GenerateChapterContent_AI } from '@/configs/AiModel'
-import service from '@/configs/service'
-import { useRouter } from 'next/navigation'
-
-// Import Toastify functions and components
-import { toast, ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import React, { useEffect, useState } from 'react';
+import { db } from '@/configs/db';
+import { Chapters, CourseList } from '@/configs/schema';
+import { useUser } from '@clerk/nextjs';
+import { and, eq } from 'drizzle-orm';
+import CourseBasicInfo from './_components/CourseBasicInfo';
+import CourseDetails from './_components/CourseDetails';
+import ChapterList from './_components/ChapterList';
+import { Button } from '@/components/ui/button';
+import { GenerateChapterContent_AI } from '@/configs/AiModel';
+import service from '@/configs/service';
+import { useRouter } from 'next/navigation';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { use } from 'react';
 
 function CourseLayout({ params }) {
+  params = use(params);
   const { user } = useUser();
   const [course, setCourse] = useState([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+ 
 
   useEffect(() => {
-    if (params) GetCourse();
+    const fetchCourse = async () => {
+      // Ensure params is properly unwrapped
+      const courseId = await params?.courseId;
+      if (courseId) {
+        GetCourse(courseId);
+      }
+    };
+    fetchCourse();
   }, [params, user]);
 
-  const GetCourse = async () => {
+  const GetCourse = async (courseId) => {
     const result = await db.select().from(CourseList)
-      .where(and(eq(CourseList.courseId, params?.courseId),
+      .where(and(eq(CourseList.courseId, courseId),
         eq(CourseList?.createdBy, user?.primaryEmailAddress?.emailAddress)));
-    
+
     setCourse(result[0]);
     console.log(result);
   };
@@ -39,7 +47,6 @@ function CourseLayout({ params }) {
     setLoading(true);
     const chapters = course?.courseOutput?.course?.chapters;
 
-    // Replace forEach with for...of to handle async/await properly
     for (const [index, chapter] of chapters.entries()) {
       try {
         const PROMPT = `Explain the concept in detail on Topic: '${course?.name}', Chapter: '${chapter?.name}', in JSON format with the following structure: 
@@ -130,3 +137,4 @@ function CourseLayout({ params }) {
 }
 
 export default CourseLayout;
+

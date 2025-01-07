@@ -20,7 +20,7 @@ function QuestionsSection({ mockInterviewQuestion, activeQuestionIndex }) {
             <h2
               key={index} // Add a unique key here
               className={`p-2 bg-secondary rounded-full text-xs md:text-sm text-center cursor-pointer ${
-                activeQuestionIndex == index && 'bg-primary text-white'
+                activeQuestionIndex == index && 'bg-accent text-white'
               }`}
             >
               Question #{index+1}

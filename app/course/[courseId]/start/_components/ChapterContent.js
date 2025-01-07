@@ -29,7 +29,15 @@ function ChapterContent({ chapter, content }) {
     };
 
     return (
-        <div className="p-10">
+        <div className="p-10 relative">
+            {/* Button to redirect to the dashboard */}
+            <a
+                href="/dashboard" // Redirect to /dashboard
+                className="absolute top-4 right-4 px-4 py-2 bg-blue-500 text-white font-medium rounded-md shadow-md hover:bg-blue-600"
+            >
+                Dashboard
+            </a>
+
             <h2 className="font-medium text-2xl">{chapter?.name}</h2>
             <p className="text-gray-500">{chapter?.about}</p>
 

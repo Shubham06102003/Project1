@@ -153,8 +153,8 @@ function Feedback({ params }) {
                 </>
             )}
             <div className='flex mt-5 justify-between'>
-            <Button onClick={() => router.replace('/dashboard')}>Go Home</Button>
-            <Button onClick={() => router.replace('/create-course')}>Generate Course</Button>
+            <Button onClick={() => router.replace('/dashboard')} className='hover:bg-accent'>Go Home</Button>
+            <Button onClick={() => router.replace('/create-course')} className='hover:bg-accent'>Generate Course</Button>
             </div>
 
         </div>

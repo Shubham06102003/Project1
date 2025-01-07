@@ -17,13 +17,15 @@ const LoadingDialog = ({loading}) => {
     <div>
       <AlertDialog open={loading}>
         <AlertDialogContent>
-          <AlertDialogTitle/>
+          <AlertDialogTitle />
           <AlertDialogHeader>
             <AlertDialogDescription>
-                <div className="flex flex-col items-center py-10">
-                    <Image alt="placeholder"  src="/loading.gif" width={100} height={100} />
-                    <h2>Please wait... AI is working on your request</h2>
+              <div className="flex flex-col items-center py-10">
+                <Image alt="placeholder" src="/loading.gif" width={100} height={100} />
+                <div>
+                  <h2>Please wait... AI is working on your request</h2>
                 </div>
+              </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
         </AlertDialogContent>
